@@ -1,0 +1,86 @@
+# Present Configuration File
+# This file controls how Present calculates karma scores and filters libraries
+
+# Karma scoring weights (must sum to 1.0)
+karma_weights:
+  usage_frequency: 0.5      # Weight for repository usage counts
+  star_count: 0.3           # Weight for GitHub stars
+  recent_activity: 0.2      # Weight for recent commits/releases
+
+# Update frequency
+update_schedule:
+  interval: "daily"         # Options: hourly, daily, weekly
+  timezone: "UTC"
+
+# Privacy-aware deny patterns
+# Libraries matching these patterns will be excluded from ranking
+deny_patterns:
+  # Internal organization libraries
+  - "internal-*"
+  - "*-internal"
+  - "company-*"
+
+  # Private organization namespaces
+  - "@myorg/*"
+  - "@company/*"
+  - "*/private-*"
+
+  # Local-only dependencies
+  - "*.local"
+  - "local-*"
+  - "localhost-*"
+
+  # Testing and development only
+  - "test-*"
+  - "*-test-util"
+  - "dev-*"
+
+  # Proprietary patterns (example)
+  - "proprietary/*"
+  - "*/enterprise-internal"
+
+# Minimum thresholds to be included in rankings
+thresholds:
+  min_stars: 10             # Minimum GitHub stars
+  min_usage_count: 5        # Minimum repository usage count
+  min_age_days: 7           # Minimum library age in days
+
+# Repository inclusion/exclusion for usage counting
+repository_filters:
+  # Include both public and private repos for usage counting
+  include_public: true
+  include_private: true
+
+  # Exclude certain repository patterns from usage counting
+  exclude_repos:
+    - "*/test-*"            # Test repositories
+    - "*/demo-*"            # Demo repositories
+    - "*/example-*"         # Example repositories
+    - "*/archive-*"         # Archived repositories
+
+# Data collection settings
+data_collection:
+  # Anonymize usage data
+  anonymize_private_repos: true
+
+  # Retention period for historical data
+  retention_days: 365
+
+  # API rate limiting
+  github_api_rate_limit: 5000  # Requests per hour
+
+# Display settings
+display:
+  # Show trending indicators
+  show_trending: true
+
+  # Number of libraries to display per category
+  items_per_category: 50
+
+  # Show metadata for each library
+  show_metadata:
+    karma_score: true
+    usage_count: true
+    star_count: true
+    last_updated: true
+    trending_indicator: true

@@ -2,29 +2,129 @@
 
 Please note that this project is released with a [Contributor Code of Conduct](code-of-conduct.md). By participating in this project you agree to abide by its terms.
 
-## Adding an awesome list
+## How Present is Different
 
-Please ensure your pull request adheres to the [list guidelines](pull_request_template.md).
+Present uses **automated karma-based ranking**, so contributions are different from traditional awesome lists:
 
-## Creating your own awesome list
+- **No manual library additions** - Rankings are automated based on usage data
+- **Focus on system improvements** - Contribute to the algorithm and infrastructure
+- **Category expansion** - Help us cover new domains and ecosystems
 
-To create your own list, check out the [instructions](create-list.md).
+## Ways to Contribute
 
-## Adding something to an awesome list
+### 1. Improve the Karma Algorithm
 
-If you have something awesome to contribute to an awesome list, this is how you do it.
+Help make our ranking system better:
 
-You'll need a [GitHub account](https://github.com/join)!
+- Suggest new signals for library relevance
+- Propose weight adjustments in `present.config.yml`
+- Report libraries that are ranked incorrectly
+- Contribute research on better ranking methodologies
 
-1. Access the awesome list's GitHub page. For example: https://github.com/sindresorhus/awesome
-2. Click on the `readme.md` file: ![Step 2 Click on Readme.md](https://cloud.githubusercontent.com/assets/170270/9402920/53a7e3ea-480c-11e5-9d81-aecf64be55eb.png)
-3. Now click on the edit icon. ![Step 3 - Click on Edit](https://cloud.githubusercontent.com/assets/170270/9402927/6506af22-480c-11e5-8c18-7ea823530099.png)
-4. You can start editing the text of the file in the in-browser editor. Make sure you follow guidelines above. You can use [GitHub Flavored Markdown](https://help.github.com/articles/github-flavored-markdown/). ![Step 4 - Edit the file](https://cloud.githubusercontent.com/assets/170270/9402932/7301c3a0-480c-11e5-81f5-7e343b71674f.png)
-5. Say why you're proposing the changes, and then click on "Propose file change". ![Step 5 - Propose Changes](https://cloud.githubusercontent.com/assets/170270/9402937/7dd0652a-480c-11e5-9138-bd14244593d5.png)
-6. Submit the [pull request](https://help.github.com/articles/using-pull-requests/)!
+**How to contribute:**
+1. Open an issue describing the improvement
+2. Provide data/examples supporting your proposal
+3. If accepted, submit a PR with changes to the algorithm
 
-## Updating your Pull Request
+### 2. Refine Privacy Filters
 
-Sometimes, a maintainer of an awesome list will ask you to edit your Pull Request before it is included. This is normally due to spelling errors or because your PR didn't match the awesome-* list guidelines.
+Help improve the deny pattern system:
 
-[Here](https://github.com/RichardLitt/knowledge/blob/master/github/amending-a-commit-guide.md) is a write up on how to change a Pull Request, and the different ways you can do that.
+- Suggest common patterns for internal libraries
+- Report false positives (public libraries being excluded)
+- Report false negatives (private libraries leaking through)
+- Contribute organization-specific pattern examples
+
+**How to contribute:**
+1. Edit `present.config.yml` with your suggested patterns
+2. Explain the use case in your PR description
+3. Provide examples of libraries it should/shouldn't match
+
+### 3. Add New Categories
+
+Expand Present to new programming languages or domains:
+
+- Create a new Present list for a language/ecosystem
+- Follow the [create-list.md](create-list.md) guide
+- Configure appropriate deny patterns
+- Set up initial category structure
+
+**Required for new lists:**
+- Clear scope definition
+- Initial deny pattern configuration
+- Category organization
+- Description of what's included/excluded
+
+### 4. Report Issues
+
+Help us maintain accuracy:
+
+**Library Issues:**
+- Library ranked too high/low
+- Deprecated library still showing
+- False positive in deny patterns
+- Privacy leak (internal library exposed)
+
+**System Issues:**
+- Karma score calculation bugs
+- Configuration not working as expected
+- Performance problems
+- Data collection errors
+
+**How to report:**
+1. Open a GitHub issue with label `bug` or `ranking-issue`
+2. Include specific library name and current karma score
+3. Explain what's wrong and what you expect
+4. Provide supporting data if possible
+
+### 5. Improve Documentation
+
+- Clarify how karma scoring works
+- Add examples to configuration documentation
+- Improve setup guides
+- Translate documentation
+
+## What NOT to Contribute
+
+Since Present is automated, please don't:
+
+- Submit PRs to manually add libraries (they're added automatically)
+- Request specific libraries be moved up/down (that's algorithm-determined)
+- Suggest subjective "awesome" lists (we use objective usage data)
+
+## Development Setup
+
+If you want to contribute code:
+
+```bash
+# Clone the repository
+git clone https://github.com/CircleOnCircles/present.git
+
+# Install dependencies
+npm install  # or appropriate package manager
+
+# Run tests
+npm test
+
+# Configure your environment
+cp present.config.yml.example present.config.yml
+# Edit present.config.yml with your settings
+```
+
+## Pull Request Guidelines
+
+1. **One change per PR** - Keep PRs focused
+2. **Test your changes** - Ensure tests pass
+3. **Update documentation** - If you change behavior
+4. **Follow existing style** - Match the codebase conventions
+5. **Explain your reasoning** - Why is this change beneficial?
+
+## Questions?
+
+- Check existing [issues](https://github.com/CircleOnCircles/present/issues)
+- Read the [manifesto](awesome.md) to understand Present's philosophy
+- Open a new issue for questions
+
+## Updating Your Pull Request
+
+Sometimes maintainers will request changes before merging. [Here's a guide](https://github.com/RichardLitt/knowledge/blob/master/github/amending-a-commit-guide.md) on how to update your PR.

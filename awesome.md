@@ -1,83 +1,91 @@
-# The awesome manifesto
+# The Present Manifesto
 
-If you want your list to be included on `awesome`, try to only include actual awesome stuff in your list. After all, it's a curation, not a collection.
+Present reimagines curated lists by using **data-driven karma scoring** to automatically surface what's actually being used in the wild.
 
-But **what is awesome?**
+## The Problem with Traditional Awesome Lists
 
-## Only awesome is awesome
+Traditional awesome lists suffer from:
+- **Stagnation** - Popular libraries stay at the top even when better alternatives emerge
+- **Manual burden** - Maintainers can't keep up with the evolving ecosystem
+- **Subjective bias** - Rankings reflect past popularity, not current relevance
+- **Outdated recommendations** - Deprecated or unmaintained libraries linger
 
-Research if the stuff you're including is actually awesome. Only put stuff on the list that you or another contributor can personally recommend. You should rather leave stuff out than include too much.
+## How Present Works
 
-## Awesome badge
+### Karma-Based Ranking
 
-This badge is for Awesome lists.
+Present calculates a **karma score** for each library using:
 
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
-[![Awesome](https://awesome.re/badge-flat2.svg)](https://awesome.re)
+1. **Usage frequency** - How often the library appears in:
+   - GitHub public repositories
+   - GitHub private repositories (with privacy controls)
 
-Add an awesome badge to the top of your list, right next to the title. [Example](https://github.com/sindresorhus/awesome-nodejs). You can choose either the regular badge or the flat one.
+2. **Star count** - Community validation and popularity
 
-```md
-[![Awesome](https://awesome.re/badge.svg)](https://awesome.re)
-[![Awesome](https://awesome.re/badge-flat.svg)](https://awesome.re)
-[![Awesome](https://awesome.re/badge-flat2.svg)](https://awesome.re)
+3. **Recent activity** - Recent commits, releases, and adoption trends
+
+The formula prioritizes libraries that are **actively used today**, not just historically popular.
+
+### Privacy-Aware Configuration
+
+Present includes a wildcard deny config system to exclude:
+
+```yaml
+deny_patterns:
+  - "internal-*"           # Internal organization libraries
+  - "company-private/*"    # Private company namespaces
+  - "@myorg/*"             # Organization-specific packages
+  - "*.local"              # Local-only dependencies
 ```
 
-*The badges should not be modified in any way.*
+This ensures:
+- **Privacy protection** - Internal libraries won't leak into public rankings
+- **Relevance** - Only publicly useful libraries are ranked
+- **Flexibility** - Custom patterns for different use cases
 
-## Awesome mentioned badge
+## Automated Updates
 
-This badge is for projects being mentioned in an Awesome list (**NOT for use in Awesome lists**). For example, the [Chalk](https://github.com/chalk/chalk) project could feature this badge because it's listed in [Awesome Node.js](https://github.com/sindresorhus/awesome-nodejs). It's totally optional for projects, but it's a nice way to show they've been featured in an Awesome list. You can choose either the regular badge or the flat one.
+Present lists update automatically:
+- **No manual curation** needed for rankings
+- **Real-time reflection** of ecosystem changes
+- **Transparent methodology** - Data-driven, not opinion-driven
 
-[![Mentioned in Awesome](https://awesome.re/mentioned-badge.svg)](https://awesome.re)
-[![Mentioned in Awesome](https://awesome.re/mentioned-badge-flat.svg)](https://awesome.re)
+## Transparency and Trust
 
-**Fill in the placeholders (Name and URL):**
+Each library listing includes:
+- Current karma score
+- Usage count (anonymized)
+- Star count
+- Last updated timestamp
+- Trending indicator (↑ rising, ↓ falling, → stable)
 
-```md
-[![Mentioned in Awesome <INSERT LIST NAME>](https://awesome.re/mentioned-badge.svg)](https://github.com/<INSERT LIST URL>)
-[![Mentioned in Awesome <INSERT LIST NAME>](https://awesome.re/mentioned-badge-flat.svg)](https://github.com/<INSERT LIST URL>)
-```
+This gives users context to make informed decisions.
 
-Example:
+## Creating a Present List
 
-```md
-[![Mentioned in Awesome Node.js](https://awesome.re/mentioned-badge.svg)](https://github.com/sindresorhus/awesome-nodejs)
-```
+1. **Define the scope** - What category of libraries (e.g., Python web frameworks)
+2. **Configure filters** - Set up deny patterns for your privacy needs
+3. **Set update frequency** - How often to recalculate karma scores
+4. **Add descriptions** - Explain what each category covers
 
-If you're an Awesome list maintainer, you could encourage projects in your list to add the badge.
+The system handles the rest automatically.
 
-*The badges should not be modified in any way.*
+## Contributing
 
-## Comment on why something is awesome
+Since Present is automated, contributions focus on:
+- **Improving the karma algorithm** - Better signals for relevance
+- **Refining deny patterns** - Better privacy controls
+- **Adding categories** - Expanding coverage to new domains
+- **Reporting false positives** - Helping improve accuracy
 
-Apart from suggesting a particular item on your list, you should also inform your readers *why* it's on the list and how they will benefit from it.
+See [contributing.md](contributing.md) for details.
 
-## Make it clear what the list is about
+## Philosophy
 
-Have a succinct description at the top of your readme. Make sure your list covers a certain scope and nothing else. Link to other awesome lists if you think they already cover a certain subject well enough.
+> **What's awesome changes over time. Present adapts automatically.**
 
-## Pay attention to grammar
-
-Ensure your list is grammatically correct, typo-free and has no Markdown formatting errors. This should also apply to pull requests.
-
-## Choose an appropriate license
-
-Keep in mind that if you [haven't selected a license](http://choosealicense.com/no-license/), it basically means the people are *not* allowed to reproduce, distribute or create derivative works.
-
-[Creative Commons licenses](https://creativecommons.org/) are perfect for this purpose. **We would recommend [`CC0`](https://creativecommons.org/publicdomain/zero/1.0/).** Code licenses like MIT, BSD, GPL, and so forth are not recommended.
-
-## Include contribution guidelines
-
-People who are contributing to your list should have a clear understanding of how they should do so.
-
-If you don't feel like writing one from scratch, feel free to take our [contributing.md](contributing.md) and modify it to your own needs.
-
-## Stylize your list properly
-
-Create a [table of contents](https://github.com/sindresorhus/stuff/blob/master/toc-generators.md), organize the content into different categories, and use images if suitable. Ensure all entries are consistent (e.g. all entry descriptions end in a `.`).
-
-## Accept other people's opinion
-
-If you're an owner of the list, respect other people's opinion. If there are plenty of users not agreeing to your decision, give it a second thought.
+Present respects that:
+- **Usage is proof** - If developers are using it, it's relevant
+- **Recency matters** - Recent activity signals current viability
+- **Data beats opinion** - Objective metrics over subjective curation
+- **Privacy is essential** - Internal tooling stays internal
