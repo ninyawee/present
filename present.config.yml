@@ -1,11 +1,26 @@
 # Present Configuration File
 # This file controls how Present calculates karma scores and filters libraries
 
-# Karma scoring weights (must sum to 1.0)
-karma_weights:
+# Two-Tier Ranking System
+# Tier 1: Battle-Tested (actual usage in repos)
+# Tier 2: Under Evaluation (bookmarked in star lists)
+
+# Tier 1: Karma scoring weights for production usage (must sum to 1.0)
+tier1_karma_weights:
   usage_frequency: 0.5      # Weight for repository usage counts
   star_count: 0.3           # Weight for GitHub stars
   recent_activity: 0.2      # Weight for recent commits/releases
+
+# Tier 2: Karma scoring weights for evaluation/bookmarks (must sum to 1.0)
+tier2_karma_weights:
+  star_list_inclusions: 0.5  # How many users bookmarked it
+  star_list_diversity: 0.3   # Breadth across different users
+  emergence_velocity: 0.2    # Rate of new bookmarks
+
+# Tier promotion threshold
+# Libraries graduate from Tier 2 to Tier 1 when they reach this usage count
+tier_promotion_threshold:
+  min_repo_usage: 50        # Minimum repositories using the library
 
 # Update frequency
 update_schedule:
@@ -45,7 +60,7 @@ thresholds:
   min_usage_count: 5        # Minimum repository usage count
   min_age_days: 7           # Minimum library age in days
 
-# Repository inclusion/exclusion for usage counting
+# Repository inclusion/exclusion for usage counting (Tier 1)
 repository_filters:
   # Include both public and private repos for usage counting
   include_public: true
@@ -57,6 +72,29 @@ repository_filters:
     - "*/demo-*"            # Demo repositories
     - "*/example-*"         # Example repositories
     - "*/archive-*"         # Archived repositories
+
+# Star list data sources (Tier 2)
+star_list_config:
+  # GitHub star lists to aggregate (format: github.com/stars/username/lists/list-name)
+  # Example: github.com/stars/ninyawee/lists/present-python
+
+  # Minimum star list criteria
+  min_list_stars: 3         # Minimum stars on the list itself
+  min_list_items: 5         # Minimum items in the list
+
+  # List name patterns to include (case-insensitive)
+  list_name_patterns:
+    - "*present*"           # Lists with "present" in name
+    - "*awesome*"           # Lists with "awesome" in name
+    - "*python*"            # Language-specific lists
+    - "*bookmark*"          # Bookmark lists
+    - "*to-try*"            # Evaluation lists
+    - "*watching*"          # Watchlist lists
+
+  # Exclude certain users' star lists (privacy/spam)
+  exclude_users:
+    - "bot-*"               # Bot accounts
+    - "*-crawler"           # Crawlers
 
 # Data collection settings
 data_collection:
@@ -74,13 +112,27 @@ display:
   # Show trending indicators
   show_trending: true
 
-  # Number of libraries to display per category
-  items_per_category: 50
+  # Number of libraries to display per tier per category
+  tier1_items_per_category: 50    # Battle-tested libraries
+  tier2_items_per_category: 30    # Under evaluation libraries
+
+  # Tier display settings
+  tier_badges:
+    tier1: "🔥 Tier 1: Battle-Tested"
+    tier2: "🌟 Tier 2: Under Evaluation"
 
   # Show metadata for each library
   show_metadata:
+    tier_badge: true
     karma_score: true
-    usage_count: true
+    usage_count: true             # For Tier 1
+    star_list_count: true         # For Tier 2
     star_count: true
     last_updated: true
     trending_indicator: true
+
+  # Trending indicator thresholds (change from last week)
+  trending_thresholds:
+    rising: 5                     # +5% or more
+    falling: -5                   # -5% or less
+    stable: [-4, 4]               # Between -4% and +4%

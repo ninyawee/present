@@ -23,13 +23,27 @@
 
 ### How it works
 
-Present calculates a **karma score** for each library based on:
+Present calculates a **karma score** for each library using a **two-tier ranking system**:
 
-- **Real usage** - How often the library appears in GitHub public and private repositories
-- **Popularity** - Star count and community engagement
-- **Recency** - Recent activity and adoption trends
+#### Tier 1: Battle-Tested (Actively Used)
+Libraries that appear in actual codebases:
+- **Repository usage** - Found in GitHub public and private repositories
+- **Star count** - Community validation
+- **Recent activity** - Active development and adoption
 
-This ensures that the libraries at the top are the ones developers are **actually using today**, not just what was popular years ago.
+#### Tier 2: Under Evaluation (Bookmarked)
+Libraries from GitHub user star lists (e.g., `github.com/stars/username/lists/present-python`):
+- **Star list inclusions** - How many users bookmarked it for future use
+- **Star list context** - What users think it's good for
+- **Emergence signal** - New libraries gaining attention
+
+**Why two tiers?**
+
+Libraries in Tier 1 are **proven in production** - developers are using them right now. Libraries in Tier 2 are **interesting and promising** - developers are evaluating them but haven't committed yet. This distinction helps you understand:
+- **Tier 1**: Safe bets, battle-tested
+- **Tier 2**: Worth watching, potential future leaders
+
+Both tiers are valuable, but Tier 1 always ranks higher because actual usage beats bookmarks.
 
 ### Privacy-aware filtering
 
