@@ -1,26 +1,58 @@
 # Present Configuration File
-# This file controls how Present calculates karma scores and filters libraries
+# Federated, usage-driven rankings that ignore GitHub stars
 
-# Two-Tier Ranking System
-# Tier 1: Battle-Tested (actual usage in repos)
-# Tier 2: Under Evaluation (bookmarked in star lists)
+# Architecture Level
+# Determines the scope of data aggregation
+architecture:
+  level: "org"              # Options: org, community, global
+  org_name: "ninyawee"      # Your GitHub org/username
+  community_name: null      # For federated: "thailand", "asia", etc.
 
-# Tier 1: Karma scoring weights for production usage (must sum to 1.0)
-tier1_karma_weights:
-  usage_frequency: 0.5      # Weight for repository usage counts
-  star_count: 0.3           # Weight for GitHub stars
-  recent_activity: 0.2      # Weight for recent commits/releases
+  # For federated aggregation (e.g., present/thailand-present-python)
+  # List orgs/users to include in the federation
+  federated_sources: []
+    # - "ninyawee"
+    # - "other-thai-org"
+    # - "another-user"
 
-# Tier 2: Karma scoring weights for evaluation/bookmarks (must sum to 1.0)
-tier2_karma_weights:
-  star_list_inclusions: 0.5  # How many users bookmarked it
-  star_list_diversity: 0.3   # Breadth across different users
-  emergence_velocity: 0.2    # Rate of new bookmarks
+# Time Windows
+# Define time periods for usage analysis
+time_windows:
+  recent: 90                # 3 months in days
+  established: 365          # 1 year
+  mature: 1095              # 3 years
+  legacy: 1825              # 5 years
+
+# Tier 1: Battle-Tested (Project Count Ranking)
+# Stars are IGNORED - only project count matters
+tier1_karma:
+  # Recency multipliers - recent usage counts more
+  recency_weights:
+    recent: 1.5             # 3 months: highest weight
+    established: 1.2        # 1 year: good weight
+    mature: 1.0             # 3 years: baseline
+    legacy: 0.8             # 5 years: discounted (might be outdated)
+
+  # Formula: karma = project_count × recency_weight
+  # Example: 1000 projects (3 months) = 1000 × 1.5 = 1500 karma
+  #          1000 projects (5 years)  = 1000 × 0.8 = 800 karma
+
+# Tier 2: Under Evaluation (Star List Ranking)
+tier2_karma:
+  weights:
+    star_list_count: 0.5    # How many users bookmarked it
+    diversity: 0.3          # Breadth across different users
+    emergence_rate: 0.2     # Growth rate in bookmarks
+
+  # Diversity calculation
+  # 10 bookmarks from 10 users > 10 bookmarks from 1 user
+  diversity_formula: "unique_users / total_bookmarks"
 
 # Tier promotion threshold
-# Libraries graduate from Tier 2 to Tier 1 when they reach this usage count
-tier_promotion_threshold:
-  min_repo_usage: 50        # Minimum repositories using the library
+# Libraries graduate from Tier 2 to Tier 1 when used in projects
+tier_promotion:
+  min_projects: 5           # Minimum projects using it (org level)
+  min_projects_federated: 50  # Minimum for federated level
 
 # Update frequency
 update_schedule:
@@ -55,9 +87,11 @@ deny_patterns:
   - "*/enterprise-internal"
 
 # Minimum thresholds to be included in rankings
+# Stars are NOT a threshold - only actual usage matters
 thresholds:
-  min_stars: 10             # Minimum GitHub stars
-  min_usage_count: 5        # Minimum repository usage count
+  tier1_min_projects: 3     # Minimum projects using it (org level)
+  tier1_min_projects_federated: 10  # Minimum for federated
+  tier2_min_star_lists: 2   # Minimum star list inclusions
   min_age_days: 7           # Minimum library age in days
 
 # Repository inclusion/exclusion for usage counting (Tier 1)
@@ -109,8 +143,11 @@ data_collection:
 
 # Display settings
 display:
-  # Show trending indicators
-  show_trending: true
+  # Default time window to display
+  default_time_window: "recent"   # Options: recent, established, mature, legacy
+
+  # Show multiple time windows for comparison
+  show_time_comparison: true      # Show usage across all time windows
 
   # Number of libraries to display per tier per category
   tier1_items_per_category: 50    # Battle-tested libraries
@@ -122,17 +159,18 @@ display:
     tier2: "🌟 Tier 2: Under Evaluation"
 
   # Show metadata for each library
+  # IMPORTANT: Stars are NOT shown - they're irrelevant
   show_metadata:
     tier_badge: true
-    karma_score: true
-    usage_count: true             # For Tier 1
-    star_list_count: true         # For Tier 2
-    star_count: true
-    last_updated: true
-    trending_indicator: true
+    project_count: true           # For Tier 1 - how many projects use it
+    star_list_count: true         # For Tier 2 - how many users bookmarked it
+    time_window: true             # Which time window (3mo, 1yr, 3yr, 5yr)
+    trend_indicator: true         # Rising/falling/stable
+    scope: true                   # Org / Community / Global
+    show_stars: false             # Stars are IGNORED
 
-  # Trending indicator thresholds (change from last week)
+  # Trending indicator thresholds (change from previous time window)
   trending_thresholds:
-    rising: 5                     # +5% or more
-    falling: -5                   # -5% or less
-    stable: [-4, 4]               # Between -4% and +4%
+    rising: 10                    # +10% or more project count
+    falling: -10                  # -10% or less
+    stable: [-9, 9]               # Between -9% and +9%

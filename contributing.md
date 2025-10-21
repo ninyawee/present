@@ -122,7 +122,7 @@ cp present.config.yml.example present.config.yml
 ## Questions?
 
 - Check existing [issues](https://github.com/CircleOnCircles/present/issues)
-- Read the [manifesto](awesome.md) to understand Present's philosophy
+- Read the [manifesto](present.md) to understand Present's philosophy
 - Open a new issue for questions
 
 ## Updating Your Pull Request
